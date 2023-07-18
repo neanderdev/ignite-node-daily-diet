@@ -7,6 +7,43 @@ import { checkUserIdExists } from "../middlewares";
 import { knex } from "../database";
 
 export async function mealsRoutes(app: FastifyInstance) {
+  app.get(
+    "/",
+    {
+      preHandler: [checkUserIdExists],
+    },
+    async (request, reply) => {
+      const { user_id } = request.cookies;
+
+      const meals = await knex("meals").where("user_id", user_id).select();
+
+      return reply.status(200).send({ meals });
+    }
+  );
+
+  app.get(
+    "/:meal_id",
+    {
+      preHandler: [checkUserIdExists],
+    },
+    async (request, reply) => {
+      const { user_id } = request.cookies;
+
+      const getTransactionParamsSchema = z.object({
+        meal_id: z.string().uuid(),
+      });
+
+      const { meal_id } = getTransactionParamsSchema.parse(request.params);
+
+      const meal = await knex("meals").where({ user_id, meal_id }).first();
+
+      if (meal?.user_id !== user_id)
+        return reply.status(401).send({ error: "Unauthorized" });
+
+      return reply.status(200).send({ meal });
+    }
+  );
+
   app.post(
     "/",
     {
