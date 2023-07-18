@@ -1,6 +1,6 @@
 # RF
 
-- [ ] Deve ser possível criar um usuário;
+- [x] Deve ser possível criar um usuário;
 - [ ] Deve ser possível registrar uma refeição feita;
 - [ ] Deve ser possível editar uma refeição, podendo alterar todos os dados acima;
 - [ ] Deve ser possível apagar uma refeição;
