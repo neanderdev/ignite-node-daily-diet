@@ -1,17 +1,17 @@
 interface IMealParam {
-  id: string;
-  userId: string;
-  name: string;
-  description?: string | undefined;
-  mealHour: string;
-  isInDiet: boolean;
+  meal_id: string;
+  meal_name: string;
+  meal_description: string;
+  meal_date_time: string;
+  is_inside: boolean;
+  user_id: string;
 }
 
 export function calcBestSequenceDiet(meals: IMealParam[]): number {
   const listSequence: number[] = [];
   let countSequence: number = 0;
 
-  const listIsInDiet = meals.map(({ isInDiet }) => isInDiet);
+  const listIsInDiet = meals.map(({ is_inside }) => is_inside);
 
   listIsInDiet.forEach((item, index) => {
     if (item) {

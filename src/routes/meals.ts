@@ -74,13 +74,11 @@ export async function mealsRoutes(app: FastifyInstance) {
         .where("user_id", user_id)
         .select("*");
 
-      console.log(calcBestSequenceDiet(meals));
-
       return reply.status(200).send({
         totalMeals: totalMeals?.total,
         insideDietMeals: insideDietMeals?.total,
         outOffDietMeals: outOffDietMeals?.total,
-        // sequenceInsideDietMeal: sequenceInsideDietMeal?.total,
+        sequenceInsideDietMeal: calcBestSequenceDiet(meals),
       });
     }
   );
