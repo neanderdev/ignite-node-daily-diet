@@ -17,6 +17,7 @@ export async function mealsRoutes(app: FastifyInstance) {
         meal_name: z.string(),
         meal_description: z.string(),
         is_inside: z.boolean(),
+        meals_date_time: z.string().default(new Date().toString()),
       });
 
       const { meal_name, meal_description, is_inside } =
@@ -46,6 +47,7 @@ export async function mealsRoutes(app: FastifyInstance) {
         meal_name: z.string().optional(),
         meal_description: z.string().optional(),
         is_inside: z.boolean().optional(),
+        meal_date_time: z.string().optional(),
       });
 
       const getTransactionParamsSchema = z.object({
@@ -54,7 +56,7 @@ export async function mealsRoutes(app: FastifyInstance) {
 
       const { meal_id } = getTransactionParamsSchema.parse(request.params);
 
-      const { meal_name, meal_description, is_inside } =
+      const { meal_name, meal_description, is_inside, meal_date_time } =
         updateMealsSchema.parse(request.body);
 
       const { user_id } = request.cookies;
@@ -68,7 +70,7 @@ export async function mealsRoutes(app: FastifyInstance) {
 
       await knex("meals")
         .where("meal_id", meal_id)
-        .update({ meal_name, meal_description, is_inside });
+        .update({ meal_name, meal_description, is_inside, meal_date_time });
     }
   );
 

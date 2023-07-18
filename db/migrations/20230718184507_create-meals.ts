@@ -5,7 +5,7 @@ export async function up(knex: Knex): Promise<void> {
     table.uuid("meal_id").primary();
     table.text("meal_name").notNullable();
     table.text("meal_description").notNullable();
-    table.timestamp("meals_date_time").defaultTo(knex.fn.now()).notNullable();
+    table.timestamp("meal_date_time").defaultTo(knex.fn.now()).notNullable();
     table.uuid("user_id");
     table.foreign("user_id").references("users.id");
   });

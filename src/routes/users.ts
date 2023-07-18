@@ -14,6 +14,13 @@ export async function userRoutes(app: FastifyInstance) {
 
     const { user_name, user_password } = createUserSchema.parse(request.body);
 
+    const user = await knex("users")
+      .where("user_name", user_name)
+      .select()
+      .first();
+
+    if (user) return reply.status(400).send({ error: "User already exists" });
+
     let user_id = request.cookies.user_id;
 
     if (!user_id) {
@@ -61,7 +68,7 @@ export async function userRoutes(app: FastifyInstance) {
     let user_id = request.cookies.user_id;
 
     if (!user_id) {
-      user_id = randomUUID();
+      user_id = user.user_id;
 
       reply.cookie("user_id", user_id, {
         path: "/",
